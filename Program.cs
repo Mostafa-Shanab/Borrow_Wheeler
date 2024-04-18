@@ -13,74 +13,47 @@ namespace Borrow_Wheeler
         {
             string test = "abfacadabfa";
 
-            long char_numbers = test.Length;
+            string transform_Output = "";
+            int row_number = 0;
 
-            string[] suffixes = new string[char_numbers];
+            int length_of_text = test.Length;
 
-            for (int i = 0; i < char_numbers; i++)
+            List<String> Original_Suffixes = new List<string>();
+            
+
+            int [] next_array = new int[length_of_text];
+
+            //Constructing Original Suffixes
+            for (int i = 0; i < length_of_text; i++)
             {
-                suffixes[i] = test.Substring(i) + test.Substring(0, i);
+                Original_Suffixes.Add(test.Substring(i) + test.Substring(0, i));
             }
-
-            foreach (var item in suffixes)
+            Console.WriteLine("\nBefore Sorting\n");
+            foreach (var item in Original_Suffixes)
             {
                 Console.WriteLine(item);
             }
+
+            //Sorting Suffixes
+            List<String> Sorted_Suffixes = new List<string>(Original_Suffixes);
+            Sorted_Suffixes.Sort((a, b) => string.Compare(a, b));
+
+            Console.WriteLine("\nAfter Sorting\n");
+            foreach (var item in Sorted_Suffixes)
+            {
+                Console.WriteLine(item);
+                transform_Output += item.Substring(length_of_text - 1);
+            }
+            for (int i = 0; i < length_of_text; i++)
+            {
+                if (Sorted_Suffixes[i] == test)
+                {
+                    row_number = i;
+                    break;
+                }
+            }
+            Console.WriteLine("\nTransform Output: " + transform_Output + "\nRow Number: " + row_number + "\n");
         }
     }
     
 }
-
-/*using System;
-using System.Collections.Generic;
-using System.Linq;
-
-class BurrowsWheelerTransform
-{
-    class Suffix
-    {
-        public string Text { get; }
-        public int Index { get; }
-
-        public Suffix(string text, int index)
-        {
-            Text = text;
-            Index = index;
-        }
-    }
-
-    public static string Transform(string text)
-    {
-        var suffixes = GenerateSuffixes(text);
-        suffixes.Sort((a, b) => string.Compare(a.Text, b.Text));
-
-        int originalIndex = -1;
-        for (int i = 0; i < suffixes.Count; i++)
-        {
-            if (suffixes[i].Index == 0)
-            {
-                originalIndex = i;
-                break;
-            }
-        }
-
-        return string.Concat(suffixes.Select(s => s.Text[s.Text.Length - 1])) + " " + originalIndex;
-    }
-
-    private static List<Suffix> GenerateSuffixes(string text)
-    {
-        var suffixes = new List<Suffix>();
-        for (int i = 0; i < text.Length; i++)
-        {
-            suffixes.Add(new Suffix(text.Substring(i) + text.Substring(0, i), i));
-        }
-        return suffixes;
-    }
-
-    static void Main()
-    {
-        string text = "abfacadabfa";
-        string transformed = Transform(text);
-        Console.WriteLine("Burrows-Wheeler Transform: " + transformed);
-    }
-}*/
