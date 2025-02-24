@@ -1,0 +1,28 @@
+D:\College\6th TERM\Algorithm Analysis & Design\5 Project\MATERIALS\[2] Burrow-Wheeler Compression\BurrowsWheeler\BurrowsWheeler\bin\Debug\net8.0\BurrowsWheeler.exe
+D:\College\6th TERM\Algorithm Analysis & Design\5 Project\MATERIALS\[2] Burrow-Wheeler Compression\BurrowsWheeler\BurrowsWheeler\bin\Debug\net8.0\BurrowsWheeler.deps.json
+D:\College\6th TERM\Algorithm Analysis & Design\5 Project\MATERIALS\[2] Burrow-Wheeler Compression\BurrowsWheeler\BurrowsWheeler\bin\Debug\net8.0\BurrowsWheeler.runtimeconfig.json
+D:\College\6th TERM\Algorithm Analysis & Design\5 Project\MATERIALS\[2] Burrow-Wheeler Compression\BurrowsWheeler\BurrowsWheeler\bin\Debug\net8.0\BurrowsWheeler.dll
+D:\College\6th TERM\Algorithm Analysis & Design\5 Project\MATERIALS\[2] Burrow-Wheeler Compression\BurrowsWheeler\BurrowsWheeler\bin\Debug\net8.0\BurrowsWheeler.pdb
+D:\College\6th TERM\Algorithm Analysis & Design\5 Project\MATERIALS\[2] Burrow-Wheeler Compression\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\BurrowsWheeler.GeneratedMSBuildEditorConfig.editorconfig
+D:\College\6th TERM\Algorithm Analysis & Design\5 Project\MATERIALS\[2] Burrow-Wheeler Compression\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\BurrowsWheeler.AssemblyInfoInputs.cache
+D:\College\6th TERM\Algorithm Analysis & Design\5 Project\MATERIALS\[2] Burrow-Wheeler Compression\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\BurrowsWheeler.AssemblyInfo.cs
+D:\College\6th TERM\Algorithm Analysis & Design\5 Project\MATERIALS\[2] Burrow-Wheeler Compression\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\BurrowsWheeler.csproj.CoreCompileInputs.cache
+D:\College\6th TERM\Algorithm Analysis & Design\5 Project\MATERIALS\[2] Burrow-Wheeler Compression\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\BurrowsWheeler.dll
+D:\College\6th TERM\Algorithm Analysis & Design\5 Project\MATERIALS\[2] Burrow-Wheeler Compression\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\refint\BurrowsWheeler.dll
+D:\College\6th TERM\Algorithm Analysis & Design\5 Project\MATERIALS\[2] Burrow-Wheeler Compression\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\BurrowsWheeler.pdb
+D:\College\6th TERM\Algorithm Analysis & Design\5 Project\MATERIALS\[2] Burrow-Wheeler Compression\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\BurrowsWheeler.genruntimeconfig.cache
+D:\College\6th TERM\Algorithm Analysis & Design\5 Project\MATERIALS\[2] Burrow-Wheeler Compression\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\ref\BurrowsWheeler.dll
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Borrow\5 Project\BurrowsWheeler\BurrowsWheeler\bin\Debug\net8.0\BurrowsWheeler.exe
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Borrow\5 Project\BurrowsWheeler\BurrowsWheeler\bin\Debug\net8.0\BurrowsWheeler.deps.json
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Borrow\5 Project\BurrowsWheeler\BurrowsWheeler\bin\Debug\net8.0\BurrowsWheeler.runtimeconfig.json
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Borrow\5 Project\BurrowsWheeler\BurrowsWheeler\bin\Debug\net8.0\BurrowsWheeler.dll
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Borrow\5 Project\BurrowsWheeler\BurrowsWheeler\bin\Debug\net8.0\BurrowsWheeler.pdb
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Borrow\5 Project\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\BurrowsWheeler.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Borrow\5 Project\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\BurrowsWheeler.AssemblyInfoInputs.cache
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Borrow\5 Project\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\BurrowsWheeler.AssemblyInfo.cs
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Borrow\5 Project\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\BurrowsWheeler.csproj.CoreCompileInputs.cache
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Borrow\5 Project\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\BurrowsWheeler.dll
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Borrow\5 Project\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\refint\BurrowsWheeler.dll
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Borrow\5 Project\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\BurrowsWheeler.pdb
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Borrow\5 Project\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\BurrowsWheeler.genruntimeconfig.cache
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Borrow\5 Project\BurrowsWheeler\BurrowsWheeler\obj\Debug\net8.0\ref\BurrowsWheeler.dll

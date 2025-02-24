@@ -1,0 +1,231 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+
+namespace Borrows
+{
+
+    internal class Program
+    {
+        public static List<char> ASCII()
+        {
+            List<char> ascii = new List<char>(); //put it to use for decode & encode 
+            for (int i = 0; i < 256; i++)
+            {
+                ascii.Add((char)i);
+            }
+            return ascii;
+
+        }
+
+
+
+        public static List<int> Encode(string input)
+        {
+
+            List<char> ASCII_List = new List<char>();
+            for (int i = 0; i < 256; i++)
+            {
+                ASCII_List.Add((char)i);
+            }
+
+            List<int> encoded = new List<int>();
+
+            foreach (char symbol in input)
+            {
+                int index = ASCII_List.IndexOf(symbol);
+
+                encoded.Add(index);
+
+                ASCII_List.RemoveAt(index);
+                ASCII_List.Insert(0, symbol);
+            }
+
+            return encoded;
+        }
+
+        public static String MTF_Decode(List<int> input)
+        {
+            List<char> ascii = ASCII();
+
+            String decode = "";
+            char c;
+
+
+            foreach (int i in input)
+            {
+                c = ascii[i];
+                decode += c;
+                ascii.RemoveAt(i);
+                ascii.Insert(0, c);
+            }
+            return decode;
+        }
+
+        public static (String, int) Transform(String input)
+        {
+            string transform_Output = "";
+            int row_number = 0;
+
+            int length_of_text = input.Length;
+
+            List<String> Original_Suffixes = new List<string>();
+
+
+            int[] next_array = new int[length_of_text];
+
+            //Constructing Original Suffixes
+            for (int i = 0; i < length_of_text; i++)
+            {
+                Original_Suffixes.Add(input.Substring(i) + input.Substring(0, i));
+            }
+
+
+            //Sorting Suffixes
+            List<String> Sorted_Suffixes = new List<string>(Original_Suffixes);
+            Sorted_Suffixes.Sort((a, b) => string.Compare(a, b));
+
+            foreach (var item in Sorted_Suffixes)
+            {
+                transform_Output += item.Substring(length_of_text - 1);
+            }
+            for (int i = 0; i < length_of_text; i++)
+            {
+                if (Sorted_Suffixes[i] == input)
+                {
+                    row_number = i;
+                    break;
+                }
+            }
+
+            
+
+            return (transform_Output, row_number);
+        }
+
+        static string inverse(String t, int n)
+        {
+            int alphaIndex;
+            int alphaCount = 0;
+
+
+            string sortedText = "";
+            alphabetClass[] alphabetList = new alphabetClass[256];
+            for (int i = 0; i < 256; i++)
+            {
+                alphabetList[i] = new alphabetClass();
+                alphabetList[i].value = (char)i;
+
+            }
+
+            for (int i = 0; i < t.Length; i++)
+            {
+                alphaIndex = ((int)t[i]);
+                if (alphabetList[alphaIndex].cout == 0)
+                    alphaCount++;
+                alphabetList[alphaIndex].cout += 1;
+                alphabetList[alphaIndex].stillValue += 1;
+
+                alphabetList[alphaIndex].isExist = true;
+
+            }
+            char[] alphas = new char[alphaCount];
+            int[] indecies = new int[alphaCount];
+            int alphasIndex = 0;
+            int startIndex = 0;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (alphabetList[i].isExist)
+                {
+                    for (int j = 0; j < alphabetList[i].cout; j++)
+                    {
+                        if (j == 0)
+                        {
+
+                            alphas[alphasIndex] = alphabetList[i].value;
+                            indecies[alphasIndex] = startIndex;
+                            alphasIndex++;
+                            startIndex += alphabetList[i].cout;
+
+                        }
+                        sortedText += alphabetList[i].value;
+
+                    }
+                }
+            }
+
+            int[] Next = new int[t.Length];
+
+            for (int i = 0; i < alphaCount; i++)
+            {
+                alphabetList[(int)alphas[i]].startIndex = indecies[i];
+
+
+
+            }
+
+            for (int i = 0; i < t.Length; i++)
+            {
+                Next[alphabetList[(int)t[i]].startIndex] = i;
+                alphabetList[(int)t[i]].stillValue--;
+                if (alphabetList[(int)t[i]].stillValue > 0)
+                {
+                    alphabetList[(int)t[i]].startIndex++;
+
+                }
+
+            }
+
+
+
+
+
+
+            int index = n;
+            string result = "" + sortedText[index];
+            for (int i = 1; i < t.Length; i++)
+            {
+                index = Next[index];
+                result += sortedText[index];
+
+            }
+            return result;
+
+        }
+
+
+
+
+        public class alphabetClass
+        {
+            public char value;
+            public int cout = 0;
+            public bool isExist = false;
+            public int startIndex;
+            public int stillValue = 0;
+
+
+
+        }
+
+
+
+        static void Main(string[] args)
+        {
+
+
+            (String, int) trans = Transform("abfacadabfa");
+            Console.WriteLine(trans.Item1);
+            Console.WriteLine(trans.Item2);
+            Console.WriteLine(inverse(trans.Item1, trans.Item2));
+
+        }
+
+    }
+
+
+}

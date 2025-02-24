@@ -1,0 +1,523 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+
+namespace Borrows
+{
+
+    internal class Program
+    {
+        public static List<char> ASCII()
+        {
+            List<char> ascii = new List<char>(); //put it to use for decode & encode 
+            for (int i = 0; i < 256; i++)
+            {
+                ascii.Add((char)i);
+            }
+            return ascii;
+
+        }
+
+
+
+        public static List<int> Encode(string input)
+        {
+
+            List<char> ASCII_List = new List<char>();
+            for (int i = 0; i < 256; i++)
+            {
+                ASCII_List.Add((char)i);
+            }
+
+            List<int> encoded = new List<int>();
+
+            foreach (char symbol in input)
+            {
+                int index = ASCII_List.IndexOf(symbol);
+
+                encoded.Add(index);
+
+                ASCII_List.RemoveAt(index);
+                ASCII_List.Insert(0, symbol);
+            }
+
+            return encoded;
+        }
+
+        public static String MTF_Decode(List<int> input)
+        {
+            List<char> ascii = ASCII();
+
+            String decode = "";
+            char c;
+
+
+            foreach (int i in input)
+            {
+                c = ascii[i];
+                decode += c;
+                ascii.RemoveAt(i);
+                ascii.Insert(0, c);
+            }
+            return decode;
+        }
+
+        public static (String, int) Transform(String input)
+        {
+            string transform_Output = "";
+            int row_number = 0;
+
+            int length_of_text = input.Length;
+
+            List<String> Original_Suffixes = new List<string>();
+
+
+            int[] next_array = new int[length_of_text];
+
+            //Constructing Original Suffixes
+            for (int i = 0; i < length_of_text; i++)
+            {
+                Original_Suffixes.Add(input.Substring(i) + input.Substring(0, i));
+            }
+
+
+            //Sorting Suffixes
+            List<String> Sorted_Suffixes = new List<string>(Original_Suffixes);
+            Sorted_Suffixes.Sort((a, b) => string.Compare(a, b));
+
+            foreach (var item in Sorted_Suffixes)
+            {
+                transform_Output += item.Substring(length_of_text - 1);
+            }
+            for (int i = 0; i < length_of_text; i++)
+            {
+                if (Sorted_Suffixes[i] == input)
+                {
+                    row_number = i;
+                    break;
+                }
+            }
+
+            
+
+            return (transform_Output, row_number);
+        }
+
+        static string inverse(String t, int n)
+        {
+            int alphaIndex;
+            int alphaCount = 0;
+
+
+            string sortedText = "";
+            alphabetClass[] alphabetList = new alphabetClass[256];
+            for (int i = 0; i < 256; i++)
+            {
+                alphabetList[i] = new alphabetClass();
+                alphabetList[i].value = (char)i;
+
+            }
+
+            for (int i = 0; i < t.Length; i++)
+            {
+                alphaIndex = ((int)t[i]);
+                if (alphabetList[alphaIndex].cout == 0)
+                    alphaCount++;
+                alphabetList[alphaIndex].cout += 1;
+                alphabetList[alphaIndex].stillValue += 1;
+
+                alphabetList[alphaIndex].isExist = true;
+
+            }
+            char[] alphas = new char[alphaCount];
+            int[] indecies = new int[alphaCount];
+            int alphasIndex = 0;
+            int startIndex = 0;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (alphabetList[i].isExist)
+                {
+                    for (int j = 0; j < alphabetList[i].cout; j++)
+                    {
+                        if (j == 0)
+                        {
+
+                            alphas[alphasIndex] = alphabetList[i].value;
+                            indecies[alphasIndex] = startIndex;
+                            alphasIndex++;
+                            startIndex += alphabetList[i].cout;
+
+                        }
+                        sortedText += alphabetList[i].value;
+
+                    }
+                }
+            }
+
+            int[] Next = new int[t.Length];
+
+            for (int i = 0; i < alphaCount; i++)
+            {
+                alphabetList[(int)alphas[i]].startIndex = indecies[i];
+
+
+
+            }
+
+            for (int i = 0; i < t.Length; i++)
+            {
+                Next[alphabetList[(int)t[i]].startIndex] = i;
+                alphabetList[(int)t[i]].stillValue--;
+                if (alphabetList[(int)t[i]].stillValue > 0)
+                {
+                    alphabetList[(int)t[i]].startIndex++;
+
+                }
+
+            }
+
+
+
+
+
+
+            int index = n;
+            string result = "" + sortedText[index];
+            for (int i = 1; i < t.Length; i++)
+            {
+                index = Next[index];
+                result += sortedText[index];
+
+            }
+            return result;
+
+        }
+
+
+
+
+        public class alphabetClass
+        {
+            public char value;
+            public int cout = 0;
+            public bool isExist = false;
+            public int startIndex;
+            public int stillValue = 0;
+            public string path;
+
+
+
+        }
+
+        public class Node
+        {
+            public char c;
+            public int freq;
+            public Node left;
+            public Node right;
+            public Node parent;
+            public bool rightUsed=false;
+            public bool leftUsed=false;
+            public Node(char c, int freq)
+            {
+                this.c = c;
+                this.freq = freq;
+            }
+            public void PrintTree(int indent = 0, string branch = "")
+            {
+                if (right != null)
+                    right.PrintTree(indent + 4, "R");
+
+                Console.Write(new string(' ', indent));
+                Console.WriteLine(branch + "----" + c + ":" + freq);
+
+                if (left != null)
+                    left.PrintTree(indent + 4, "L");
+            }
+        }
+
+        public class FrequencyComparer : IComparer<Node>
+        {
+            public int Compare(Node x, Node y)
+            {
+                
+                return x.freq.CompareTo(y.freq); 
+            }
+        }
+
+        /*using System;
+ using System.Collections.Generic;*/
+
+        public class PriorityQueue<T>
+        {
+            private List<Tuple<T, int>> heap = new List<Tuple<T, int>>();
+
+            // Enqueue method adds an item with its priority to the priority queue
+            public void Enqueue(T item, int priority)
+            {
+                heap.Add(Tuple.Create(item, priority));
+                HeapifyUp(heap.Count - 1);
+            }
+
+            // Dequeue method removes and returns the item with the lowest priority
+            public T Dequeue()
+            {
+                if (IsEmpty())
+                    throw new InvalidOperationException("Priority queue is empty");
+
+                T item = heap[0].Item1;
+                heap[0] = heap[heap.Count - 1];
+                heap.RemoveAt(heap.Count - 1);
+                HeapifyDown(0);
+                return item;
+            }
+
+            // Peek method returns the item with the lowest priority without removing it
+            public T Peek()
+            {
+                if (IsEmpty())
+                    throw new InvalidOperationException("Priority queue is empty");
+
+                return heap[0].Item1;
+            }
+
+            // Checks if the priority queue is empty
+            public bool IsEmpty()
+            {
+                return heap.Count == 0;
+            }
+
+            // Returns the number of elements in the priority queue
+            public int Count => heap.Count;
+
+            // Restores the heap property by moving the element up
+            private void HeapifyUp(int index)
+            {
+                while (index > 0)
+                {
+                    int parentIndex = (index - 1) / 2;
+                    if (heap[index].Item2 < heap[parentIndex].Item2)
+                    {
+                        Swap(index, parentIndex);
+                        index = parentIndex;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            // Restores the heap property by moving the element down
+            private void HeapifyDown(int index)
+            {
+                int leftChildIndex = 2 * index + 1;
+                int rightChildIndex = 2 * index + 2;
+                int smallestIndex = index;
+
+                if (leftChildIndex < heap.Count && heap[leftChildIndex].Item2 < heap[smallestIndex].Item2)
+                {
+                    smallestIndex = leftChildIndex;
+                }
+
+                if (rightChildIndex < heap.Count && heap[rightChildIndex].Item2 < heap[smallestIndex].Item2)
+                {
+                    smallestIndex = rightChildIndex;
+                }
+
+                if (smallestIndex != index)
+                {
+                    Swap(index, smallestIndex);
+                    HeapifyDown(smallestIndex);
+                }
+            }
+
+            // Helper method to swap two elements in the heap
+            private void Swap(int index1, int index2)
+            {
+                Tuple<T, int> temp = heap[index1];
+                heap[index1] = heap[index2];
+                heap[index2] = temp;
+            }
+        }
+
+        public static (Node,string) huffmanEncoder(string t)
+        {
+            int alphaIndex;
+            int alphaCount = 0;
+
+
+           
+            alphabetClass[] alphabetList = new alphabetClass[256];
+            for (int i = 0; i < 256; i++)
+            {
+                alphabetList[i] = new alphabetClass();
+                alphabetList[i].value = (char)i;
+
+            }
+
+            for (int i = 0; i < t.Length; i++)
+            {
+                alphaIndex = ((int)t[i]);
+                if (alphabetList[alphaIndex].cout == 0)
+                    alphaCount++;
+                alphabetList[alphaIndex].cout += 1;
+                alphabetList[alphaIndex].isExist = true;
+
+            }
+            char[] alphas = new char[alphaCount];
+            int alphasIndex = 0;
+        
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (alphabetList[i].isExist)
+                {
+                    for (int j = 0; j < alphabetList[i].cout; j++)
+                    {
+                        if (j == 0)
+                        {
+
+                            alphas[alphasIndex] = alphabetList[i].value;
+                       
+                            alphasIndex++;
+                            
+
+                        }
+                       
+
+                    }
+                }
+            }
+
+            PriorityQueue<Node> minHeap=new PriorityQueue<Node> ();
+            for (int i = 0;i<alphaCount;i++)
+            {
+                minHeap.Enqueue(new Node(alphas[i], alphabetList[(int)alphas[i]].cout), alphabetList[(int)alphas[i]].cout);
+            }
+
+            while (minHeap.Count > 1)
+            {
+                Node left = minHeap.Dequeue();
+                Node right = minHeap.Dequeue();
+
+                Node parent = new Node('\0', left.freq + right.freq); // Internal node doesn't have a character
+                parent.left = left;
+                parent.right = right;
+                left.parent = parent;
+                right.parent = parent;
+
+                minHeap.Enqueue(parent,parent.freq);
+               // Console.WriteLine($"Merge: {left.c}:{left.freq} + {right.c}:{right.freq} = {parent.freq}");
+            }
+            Node Root=minHeap.Dequeue();
+            Node Traverser = Root;
+            string path = "";
+           traverseLeft:
+            while (Traverser.left != null)
+            {
+                Traverser.leftUsed = true;
+                Traverser = Traverser.left;
+                path += 0;
+
+            }
+
+            alphabetList[(int)Traverser.c].path = path;
+            Traverser=Traverser.parent;
+            path=path.Substring(0, path.Length - 1);
+            if (Traverser.rightUsed == false)
+            {
+                Traverser.rightUsed = true;
+                Traverser=Traverser.right;
+                path += 1;
+                goto traverseLeft;
+            }
+            else
+            {
+                while (Traverser.rightUsed == true)
+                {
+                    if (Traverser.parent == null)
+                    {
+                        
+                        goto end;
+
+                    }
+                    Traverser = Traverser.parent;
+                    path = path.Substring(0, path.Length - 1);
+
+                }
+
+                Traverser.rightUsed = true;
+                Traverser = Traverser.right;
+                path += 1;
+                goto traverseLeft ;
+
+            }
+
+        end:
+            string wholePath = "";
+            for(int i=0;i<t.Length;i++)
+            {
+                wholePath += alphabetList[(int)t[i]].path; 
+            }
+
+            
+
+
+
+
+            return (Root,wholePath);
+
+
+
+        }
+
+        public static string Decompress(string input, Node root)
+        {
+            var decodedString = "";
+            var current = root;
+
+            foreach (char bit in input)
+            {
+                if (bit == '0')
+                    current = current.left;
+                else
+                    current = current.right;
+
+                if (current.left == null && current.right == null)
+                {
+                    decodedString += current.c;
+                    current = root;
+                }
+            }
+
+            return decodedString;
+        }
+
+
+        static void Main(string[] args)
+        {
+
+
+            (String, int) trans = Transform("abfacadabfa");
+            Console.WriteLine(trans.Item1);
+            Console.WriteLine(trans.Item2);
+            Console.WriteLine(inverse(trans.Item1, trans.Item2));
+            (Node,string) encode = huffmanEncoder("duke blue devils");
+
+            Console.WriteLine(Decompress(encode.Item2, encode.Item1));
+
+           
+        
+            
+
+        }
+
+    }
+
+
+}

@@ -1,0 +1,625 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection.PortableExecutable;
+using System.Text;
+
+namespace Borrows
+{
+
+    internal class Program
+    {
+        public class alphabetClass
+        {
+            public char value;
+            public int cout = 0;
+            public bool isExist = false;
+            public int startIndex;
+            public int stillValue = 0;
+            public string path;
+
+
+
+        }
+
+        public class Node
+        {
+            public char c;
+            public int freq;
+            public Node left;
+            public Node right;
+            public Node parent;
+            public bool rightUsed = false;
+            public bool leftUsed = false;
+            public Node(char c, int freq)
+            {
+                this.c = c;
+                this.freq = freq;
+            }
+            public void PrintTree(int indent = 0, string branch = "")
+            {
+                if (right != null)
+                    right.PrintTree(indent + 4, "R");
+
+                Console.Write(new string(' ', indent));
+                Console.WriteLine(branch + "----" + c + ":" + freq);
+
+                if (left != null)
+                    left.PrintTree(indent + 4, "L");
+            }
+        }
+
+        public class FrequencyComparer : IComparer<Node>
+        {
+            public int Compare(Node x, Node y)
+            {
+
+                return x.freq.CompareTo(y.freq);
+            }
+        }
+
+        /*using System;
+ using System.Collections.Generic;*/
+
+        public class PriorityQueue<T>
+        {
+            private List<Tuple<T, int>> heap = new List<Tuple<T, int>>();
+
+            // Enqueue method adds an item with its priority to the priority queue
+            public void Enqueue(T item, int priority)
+            {
+                heap.Add(Tuple.Create(item, priority));
+                HeapifyUp(heap.Count - 1);
+            }
+
+            // Dequeue method removes and returns the item with the lowest priority
+            public T Dequeue()
+            {
+                if (IsEmpty())
+                    throw new InvalidOperationException("Priority queue is empty");
+
+                T item = heap[0].Item1;
+                heap[0] = heap[heap.Count - 1];
+                heap.RemoveAt(heap.Count - 1);
+                HeapifyDown(0);
+                return item;
+            }
+
+            // Peek method returns the item with the lowest priority without removing it
+            public T Peek()
+            {
+                if (IsEmpty())
+                    throw new InvalidOperationException("Priority queue is empty");
+
+                return heap[0].Item1;
+            }
+
+            // Checks if the priority queue is empty
+            public bool IsEmpty()
+            {
+                return heap.Count == 0;
+            }
+
+            // Returns the number of elements in the priority queue
+            public int Count => heap.Count;
+
+            // Restores the heap property by moving the element up
+            private void HeapifyUp(int index)
+            {
+                while (index > 0)
+                {
+                    int parentIndex = (index - 1) / 2;
+                    if (heap[index].Item2 < heap[parentIndex].Item2)
+                    {
+                        Swap(index, parentIndex);
+                        index = parentIndex;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            // Restores the heap property by moving the element down
+            private void HeapifyDown(int index)
+            {
+                int leftChildIndex = 2 * index + 1;
+                int rightChildIndex = 2 * index + 2;
+                int smallestIndex = index;
+
+                if (leftChildIndex < heap.Count && heap[leftChildIndex].Item2 < heap[smallestIndex].Item2)
+                {
+                    smallestIndex = leftChildIndex;
+                }
+
+                if (rightChildIndex < heap.Count && heap[rightChildIndex].Item2 < heap[smallestIndex].Item2)
+                {
+                    smallestIndex = rightChildIndex;
+                }
+
+                if (smallestIndex != index)
+                {
+                    Swap(index, smallestIndex);
+                    HeapifyDown(smallestIndex);
+                }
+            }
+
+            // Helper method to swap two elements in the heap
+            private void Swap(int index1, int index2)
+            {
+                Tuple<T, int> temp = heap[index1];
+                heap[index1] = heap[index2];
+                heap[index2] = temp;
+            }
+        }
+
+        public static (Node, string) huffmanEncoder(string t)
+        {
+            int alphaIndex;
+            int alphaCount = 0;
+
+
+
+            alphabetClass[] alphabetList = new alphabetClass[256];
+            for (int i = 0; i < 256; i++)
+            {
+                alphabetList[i] = new alphabetClass();
+                alphabetList[i].value = (char)i;
+
+            }
+
+            for (int i = 0; i < t.Length; i++)
+            {
+                alphaIndex = ((int)t[i]);
+                if (alphabetList[alphaIndex].cout == 0)
+                    alphaCount++;
+                alphabetList[alphaIndex].cout += 1;
+                alphabetList[alphaIndex].isExist = true;
+
+            }
+            char[] alphas = new char[alphaCount];
+            int alphasIndex = 0;
+
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (alphabetList[i].isExist)
+                {
+                    for (int j = 0; j < alphabetList[i].cout; j++)
+                    {
+                        if (j == 0)
+                        {
+
+                            alphas[alphasIndex] = alphabetList[i].value;
+
+                            alphasIndex++;
+
+
+                        }
+
+
+                    }
+                }
+            }
+
+            PriorityQueue<Node> minHeap = new PriorityQueue<Node>();
+            for (int i = 0; i < alphaCount; i++)
+            {
+                minHeap.Enqueue(new Node(alphas[i], alphabetList[(int)alphas[i]].cout), alphabetList[(int)alphas[i]].cout);
+            }
+
+            while (minHeap.Count > 1)
+            {
+                Node left = minHeap.Dequeue();
+                Node right = minHeap.Dequeue();
+
+                Node parent = new Node('\0', left.freq + right.freq); // Internal node doesn't have a character
+                parent.left = left;
+                parent.right = right;
+                left.parent = parent;
+                right.parent = parent;
+
+                minHeap.Enqueue(parent, parent.freq);
+                // Console.WriteLine($"Merge: {left.c}:{left.freq} + {right.c}:{right.freq} = {parent.freq}");
+            }
+            Node Root = minHeap.Dequeue();
+            Node Traverser = Root;
+            string path = "";
+        traverseLeft:
+            while (Traverser.left != null)
+            {
+                Traverser.leftUsed = true;
+                Traverser = Traverser.left;
+                path += 0;
+
+            }
+
+            alphabetList[(int)Traverser.c].path = path;
+            Traverser = Traverser.parent;
+            path = path.Substring(0, path.Length - 1);
+            if (Traverser.rightUsed == false)
+            {
+                Traverser.rightUsed = true;
+                Traverser = Traverser.right;
+                path += 1;
+                goto traverseLeft;
+            }
+            else
+            {
+                while (Traverser.rightUsed == true)
+                {
+                    if (Traverser.parent == null)
+                    {
+
+                        goto end;
+
+                    }
+                    Traverser = Traverser.parent;
+                    path = path.Substring(0, path.Length - 1);
+
+                }
+
+                Traverser.rightUsed = true;
+                Traverser = Traverser.right;
+                path += 1;
+                goto traverseLeft;
+
+            }
+
+        end:
+            string wholePath = "";
+            for (int i = 0; i < t.Length; i++)
+            {
+                wholePath += alphabetList[(int)t[i]].path;
+            }
+
+
+
+
+
+
+            return (Root, wholePath);
+
+
+
+        }
+
+        public static string Decompress(string input, Node root)
+        {
+            var decodedString = "";
+            var current = root;
+
+            foreach (char bit in input)
+            {
+                if (bit == '0')
+                    current = current.left;
+                else
+                    current = current.right;
+
+                if (current.left == null && current.right == null)
+                {
+                    decodedString += current.c;
+                    current = root;
+                }
+            }
+
+            return decodedString;
+        }
+
+
+
+
+        static void Main(string[] args)
+        {
+
+            try
+            {
+                // Read input string from a text file
+                string inputFilePath = "aesop.txt";
+
+                // Check if the input file exists
+                if (File.Exists(inputFilePath))
+                {
+                    // Read the input string from the file
+                    string inputString = File.ReadAllText(inputFilePath);
+
+                    (string, int) trans = Transform(inputString);
+                    Console.WriteLine("pass Transform");
+                
+                    List<int> MTVen = new List<int>();
+                    MTVen = Encode(trans.Item1);
+                   
+                    string contain = "";
+                    foreach(int must in MTVen)
+                    {
+                        
+                        contain += must;    
+                    }
+
+                    Console.WriteLine("pass M T F");
+
+                    // Apply huffmanEncoder function to the input string
+
+                    (Node, string) encode = huffmanEncoder(contain);
+                    Console.WriteLine("pass huffmanEncoder");
+
+                   // Console.WriteLine("H encode: " + contain);
+                    // Write the encoded string to a new text file
+                    string encodedOutputFilePath = "encoded_output.txt";
+                    File.WriteAllText(encodedOutputFilePath, encode.Item2);
+                    Console.WriteLine("Encoded content has been written to the output file successfully: " + encodedOutputFilePath);
+
+                    // Decompress the encoded string
+/*                    string decompressedString = Decompress(encode.Item2, encode.Item1);
+                    Console.WriteLine("** decompressedString:> " + decompressedString);
+                    string MTVdec = Decode(decompressedString);
+                    Console.WriteLine("** MTVdec:> " + MTVdec);
+                    string original = Inverse(MTVdec, trans.Item2);
+                    Console.WriteLine("I'm in 347");
+*/
+
+                    // Write the decompressed string to another text file
+                    /*string decompressedOutputFilePath = "decompressed_output.txt";
+                    File.WriteAllText(decompressedOutputFilePath, original);
+                    Console.WriteLine("Decompressed content has been written to the output file successfully: " + decompressedOutputFilePath);*/
+                }
+                else
+                {
+                    Console.WriteLine("The input file does not exist.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+            }
+
+
+
+
+
+
+
+        }
+
+        static string Inverse(string transformedText, int rowNumber)
+        {
+            int n = transformedText.Length;
+
+            List<char> firstColumn = new List<char>(transformedText.Length);
+            List<char> lastColumn = new List<char>(transformedText.Length);
+
+            Dictionary<char, Queue<int>> chars_in_text_with_index = new Dictionary<char, Queue<int>>();
+
+            for (int i = 0; i < n; i++)
+            {
+                if (!chars_in_text_with_index.ContainsKey(lastColumn[i]))
+                {
+                    chars_in_text_with_index[lastColumn[i]] = new Queue<int>();
+                }
+                chars_in_text_with_index[lastColumn[i]].Enqueue(i);
+            }
+
+            firstColumn.Sort();
+
+            int[] next_array = new int[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                next_array[i] = chars_in_text_with_index[firstColumn[i]].Dequeue();
+            }
+
+            int index = rowNumber;
+            StringBuilder inversed_text = new StringBuilder();
+
+            for (int i = 0; i < n; i++)
+            {
+                index = next_array[index];
+                inversed_text.Append(transformedText[index]);
+            }
+
+            return inversed_text.ToString();
+        }
+
+        static (string, int) Transform(string test)
+        {
+            if (string.IsNullOrEmpty(test))
+            {
+                throw new ArgumentException("Input text cannot be null or empty.");
+            }
+
+            StringBuilder transform_Output = new StringBuilder();
+            int row_number = 0;
+
+            int length_of_text = test.Length;
+
+            List<int> Original_Indexes = new List<int>();
+            for (int i = 0; i < length_of_text; i++)
+            {
+                Original_Indexes.Add(i);
+            }
+
+            QuickSort(Original_Indexes, test, 0, Original_Indexes.Count - 1);
+
+            foreach (var index in Original_Indexes)
+            {
+                if (index == 0)
+                {
+                    row_number = transform_Output.Length;
+                }
+                transform_Output.Append(test[(index + length_of_text - 1) % length_of_text]);
+            }
+
+            return (transform_Output.ToString(), row_number);
+        }
+        static void RadixSort(List<int> indexes, string text, int left, int right, int position = 0)
+        {
+            if (left < right && position < text.Length)
+            {
+                List<List<int>> buckets = new List<List<int>>();
+                for (int i = 0; i < 256; i++) // Assuming ASCII characters
+                {
+                    buckets.Add(new List<int>());
+                }
+
+                foreach (int index in indexes)
+                {
+                    int charIndex = (index + position) % text.Length;
+                    char c = text[charIndex];
+                    int bucketIndex = (int)c; // Ensure bucketIndex is within the valid range
+                    buckets[bucketIndex].Add(index);
+                }
+
+                int currentIndex = left;
+                foreach (var bucket in buckets)
+                {
+                    RadixSort(bucket, text, currentIndex, currentIndex + bucket.Count - 1, position + 1);
+                    foreach (int index in bucket)
+                    {
+                        indexes[currentIndex] = index;
+                        currentIndex++;
+                    }
+                }
+            }
+        }
+
+        static void QuickSort(List<int> indexes, string text, int left, int right)
+        {
+            if (left < right)
+            {
+                //Console.WriteLine("hi2");
+                int partitionIndex = Partition(indexes, text, left, right);
+                Parallel.Invoke(
+                    () =>
+                    {
+
+                        QuickSort(indexes, text, left, partitionIndex - 1);
+                    }
+                    , () =>
+                    {
+
+                        QuickSort(indexes, text, partitionIndex + 1, right);
+                    }
+                    );
+            }
+        }
+
+        static int Partition(List<int> indexes, string text, int left, int right)
+        {
+            int pivotIndex = left;
+            int pivotValue = indexes[pivotIndex];
+            int i = left + 1;
+
+            for (int j = left + 1; j <= right; j++)
+            {
+                if (Compare(indexes[j], pivotValue, text) < 0)
+                {
+                    Swap(indexes, i, j);
+                    i++;
+                }
+            }
+
+            Swap(indexes, pivotIndex, i - 1);
+            return i - 1;
+        }
+
+        static int Compare(int index1, int index2, string text)
+        {
+            int length = text.Length;
+            for (int i = 0; i < length; i++)
+            {
+                char char1 = text[(index1 + i) % length];
+                char char2 = text[(index2 + i) % length];
+                if (char1 < char2) return -1;
+                if (char1 > char2) return 1;
+            }
+            return 0;
+        }
+
+        static void Swap(List<int> indexes, int i, int j)
+        {
+            int temp = indexes[i];
+            indexes[i] = indexes[j];
+            indexes[j] = temp;
+        }
+
+
+        public static List<int> Encode(string input)
+        {
+            int unicodeRange = 65536;
+            char[] unicodeChars = new char[unicodeRange];
+            int[] charPositions = new int[unicodeRange];
+            for (int i = 0; i < unicodeRange; i++)
+            {
+                unicodeChars[i] = (char)i;
+                charPositions[i] = i;
+            }
+
+            List<int> encoded = new List<int>();
+            foreach (char symbol in input)
+            {
+                int unicodeValue = symbol;
+                if (unicodeValue < 0 || unicodeValue >= unicodeRange)
+                {
+                    throw new IndexOutOfRangeException($"Unicode value of character '{symbol}' is out of range: {unicodeValue}");
+                }
+
+                int charIndex = charPositions[unicodeValue];
+                encoded.Add(charIndex);
+
+                // Move to front 
+                for (int i = charIndex; i > 0; i--)
+                {
+                    charPositions[unicodeChars[i - 1]]++;
+                    unicodeChars[i] = unicodeChars[i - 1];
+                }
+                unicodeChars[0] = symbol;
+                charPositions[symbol] = 0;
+            }
+
+            return encoded;
+        }
+
+        public static string Decode(string encoded)
+        {
+
+
+            int unicodeRange = 6553600;
+            char[] unicodeChars = new char[unicodeRange];
+            int[] charPositions = Enumerable.Range(0, unicodeRange).ToArray();
+
+            for (int i = 0; i < unicodeRange; i++)
+            {
+                unicodeChars[i] = (char)i;
+            }
+
+            StringBuilder decoded = new StringBuilder();
+            foreach (int position in encoded)
+            {
+                if (position == null)
+                    break;
+                // Find the character by its position
+                char symbol = unicodeChars[position];
+                decoded.Append(symbol);
+
+                // Move to front 
+                Array.Copy(unicodeChars, 0, unicodeChars, 1, position);
+                unicodeChars[0] = symbol;
+
+                // Update the positions of the characters that have been shifted
+                for (int i = 1; i <= position; i++)
+                {
+                    charPositions[unicodeChars[i]] = i;
+                }
+                charPositions[symbol] = 0;
+            }
+
+            return decoded.ToString();
+        }
+
+    }
+
+
+}

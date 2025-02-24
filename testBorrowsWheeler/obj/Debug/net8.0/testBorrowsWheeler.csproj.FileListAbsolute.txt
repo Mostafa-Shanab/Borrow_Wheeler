@@ -1,0 +1,14 @@
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Algo\5 Project\testBorrowsWheeler\bin\Debug\net8.0\testBorrowsWheeler.exe
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Algo\5 Project\testBorrowsWheeler\bin\Debug\net8.0\testBorrowsWheeler.deps.json
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Algo\5 Project\testBorrowsWheeler\bin\Debug\net8.0\testBorrowsWheeler.runtimeconfig.json
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Algo\5 Project\testBorrowsWheeler\bin\Debug\net8.0\testBorrowsWheeler.dll
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Algo\5 Project\testBorrowsWheeler\bin\Debug\net8.0\testBorrowsWheeler.pdb
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Algo\5 Project\testBorrowsWheeler\obj\Debug\net8.0\testBorrowsWheeler.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Algo\5 Project\testBorrowsWheeler\obj\Debug\net8.0\testBorrowsWheeler.AssemblyInfoInputs.cache
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Algo\5 Project\testBorrowsWheeler\obj\Debug\net8.0\testBorrowsWheeler.AssemblyInfo.cs
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Algo\5 Project\testBorrowsWheeler\obj\Debug\net8.0\testBorrowsWheeler.csproj.CoreCompileInputs.cache
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Algo\5 Project\testBorrowsWheeler\obj\Debug\net8.0\testBorrowsWheeler.dll
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Algo\5 Project\testBorrowsWheeler\obj\Debug\net8.0\refint\testBorrowsWheeler.dll
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Algo\5 Project\testBorrowsWheeler\obj\Debug\net8.0\testBorrowsWheeler.pdb
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Algo\5 Project\testBorrowsWheeler\obj\Debug\net8.0\testBorrowsWheeler.genruntimeconfig.cache
+C:\Users\Shanab\OneDrive - Faculty Of Computer and Information Technology (Ain Shams University)\Desktop\Algo\5 Project\testBorrowsWheeler\obj\Debug\net8.0\ref\testBorrowsWheeler.dll
